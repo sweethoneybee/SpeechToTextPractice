@@ -8,7 +8,7 @@
 import UIKit
 import Speech
 
-class ViewController: UIViewController, SFSpeechRecognizerDelegate {
+class LiveSpeechViewController: UIViewController, SFSpeechRecognizerDelegate {
 
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ko-KR"))
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
@@ -91,7 +91,6 @@ class ViewController: UIViewController, SFSpeechRecognizerDelegate {
                 self.recordButton.isEnabled = true
                 self.recordButton.setTitle("녹음 시작! 하다가 멈춤", for: [])
                 print("isFinal=\(isFinal)")
-                print("error=\(error?.localizedDescription)")
             }
         }
         
