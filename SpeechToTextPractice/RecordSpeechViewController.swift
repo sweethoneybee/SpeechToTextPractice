@@ -36,7 +36,8 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         super.viewDidLoad()
         
     }
-    
+
+    // MARK: - RECORD
     @IBAction func onRecordButton(_ sender: Any) {
         if audioRecorder == nil {
             startRecording()
@@ -118,7 +119,7 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
-    // MARK: Recognizer
+    // MARK:- Recognizer
     @IBAction func onSpeechToTextButton(_ sender: Any) {
         speechToText()
     }
@@ -190,6 +191,11 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         var conversionTime = Double(conversionFinishTime.timeIntervalSince(conversionStartTime))
         conversionTime = conversionTime - conversionTime.truncatingRemainder(dividingBy: 0.01)
         conversionTimeLabel.text = "\(conversionTime) 초 걸림"
+    }
+    
+    // MARK:- keyboard
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }
 
