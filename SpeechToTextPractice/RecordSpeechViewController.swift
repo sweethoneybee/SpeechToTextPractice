@@ -32,11 +32,21 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var conversionTimeLabel: UILabel!
     @IBOutlet weak var recordTimeLabel: UILabel!
     
+    @IBOutlet weak var currentId: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setIdLabel()
     }
 
+    private func setIdLabel(newId: Int? = nil) {
+        if let id = newId {
+            currentId.text = "현재 \(id)까지"
+        } else {
+            let id = SpeechDefaults.shared.fileId
+            currentId.text = "현재 \(id - 1)까지"
+        }
+    }
     // MARK: - RECORD
     @IBAction func onRecordButton(_ sender: Any) {
         if audioRecorder == nil {
@@ -45,7 +55,7 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
             finishRecording(success: true)
         }
     }
-    
+
     func startRecording() {
         recordingSession = AVAudioSession.sharedInstance()
         
@@ -58,7 +68,6 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
                     guard let self = self else { return }
                     if allowed {
                         self.audioFileURL = self.getDocumentsDirectory().appendingPathComponent("recording_\(SpeechDefaults.shared.fileId).m4a")
-                        
                         
                         let settings = [
                             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -73,7 +82,7 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
                             self.audioRecorder.record()
                             self.recordStartTime = Date()
                             
-                            self.urlLabel.text = self.audioFileURL.absoluteString ?? "URL 잘못됨"
+                            self.urlLabel.text = self.audioFileURL.absoluteString
                             SpeechDefaults.shared.fileURL = self.audioFileURL
                             self.recordButton.setTitle("녹음중", for: [])
                         } catch {
@@ -102,9 +111,12 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         
         if success {
             recordFinishTime = Date()
-            var recordTime = Double(recordFinishTime.timeIntervalSince(recordStartTime))
-            recordTime = recordTime - recordTime.truncatingRemainder(dividingBy: 0.01)
-            recordTimeLabel.text = "\(recordTime)초 녹음"
+            let recordTime = Double(recordFinishTime.timeIntervalSince(recordStartTime))
+            recordTimeLabel.text = String(format: "%.2f 초 녹음", recordTime)
+            
+            let id = SpeechDefaults.shared.fileId
+            setIdLabel(newId: id)
+            SpeechDefaults.shared.fileId = id + 1
             
             recordButton.setTitle("다시 녹음?", for: [])
         }
@@ -146,6 +158,9 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         var request: SFSpeechURLRecognitionRequest!
         if let id = id {
             url = self.getDocumentsDirectory().appendingPathComponent("recording_\(id).m4a")
+            let audioFile = try! AVAudioFile(forReading: url)
+            let duration = Double(audioFile.duration)
+            recordTimeLabel.text = String(format: "약 %.2f초", duration)
         } else {
             url = audioFileURL!
         }
@@ -156,12 +171,16 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         }
         
         urlLabel.text = url.absoluteString
-        
-        conversionStartTime = Date()
+//        conversionStartTime = Date()
+        var timeFlag = false
         recognizer.recognitionTask(with: request) { result, error in
+            if !timeFlag {
+                self.conversionStartTime = Date()
+                timeFlag = true
+            }
             guard let result = result else {
                 print("음성 변환 실패")
-                print("error=\(error)")
+                print("error=\(String(describing: error?.localizedDescription))")
                 self.caculateFinishTime()
                 return
             }
@@ -188,9 +207,8 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
     
     func caculateFinishTime() {
         conversionFinishTime = Date()
-        var conversionTime = Double(conversionFinishTime.timeIntervalSince(conversionStartTime))
-        conversionTime = conversionTime - conversionTime.truncatingRemainder(dividingBy: 0.01)
-        conversionTimeLabel.text = "\(conversionTime) 초 걸림"
+        let conversionTime = Double(conversionFinishTime.timeIntervalSince(conversionStartTime))
+        conversionTimeLabel.text = String(format: "%.2f 초 걸림", conversionTime)
     }
     
     // MARK:- keyboard
@@ -207,9 +225,10 @@ class SpeechDefaults {
     
     var fileId: Int {
         get {
-            let ret = UserDefaults.standard.integer(forKey: SpeechDefaults.fileId)
-            UserDefaults.standard.set(ret + 1, forKey: SpeechDefaults.fileId)
-            return ret
+            return UserDefaults.standard.integer(forKey: SpeechDefaults.fileId)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: SpeechDefaults.fileId)
         }
     }
     
@@ -222,3 +241,5 @@ class SpeechDefaults {
         }
     }
 }
+
+

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		401396B7269B090F0099511E /* AVAudioFile+duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401396B6269B090F0099511E /* AVAudioFile+duration.swift */; };
 		4061DCFF26935B3B007E0F2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061DCFE26935B3B007E0F2E /* AppDelegate.swift */; };
 		4061DD0126935B3B007E0F2E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061DD0026935B3B007E0F2E /* SceneDelegate.swift */; };
 		4061DD0326935B3B007E0F2E /* LiveSpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061DD0226935B3B007E0F2E /* LiveSpeechViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		401396B6269B090F0099511E /* AVAudioFile+duration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioFile+duration.swift"; sourceTree = "<group>"; };
 		4061DCFB26935B3B007E0F2E /* SpeechToTextPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeechToTextPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4061DCFE26935B3B007E0F2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4061DD0026935B3B007E0F2E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -42,6 +44,7 @@
 		4061DCF226935B3B007E0F2E = {
 			isa = PBXGroup;
 			children = (
+				401396B6269B090F0099511E /* AVAudioFile+duration.swift */,
 				4061DCFD26935B3B007E0F2E /* SpeechToTextPractice */,
 				4061DCFC26935B3B007E0F2E /* Products */,
 			);
@@ -142,6 +145,7 @@
 			files = (
 				4061DD0326935B3B007E0F2E /* LiveSpeechViewController.swift in Sources */,
 				4061DCFF26935B3B007E0F2E /* AppDelegate.swift in Sources */,
+				401396B7269B090F0099511E /* AVAudioFile+duration.swift in Sources */,
 				4061DD1326971391007E0F2E /* RecordSpeechViewController.swift in Sources */,
 				4061DD0126935B3B007E0F2E /* SceneDelegate.swift in Sources */,
 			);
