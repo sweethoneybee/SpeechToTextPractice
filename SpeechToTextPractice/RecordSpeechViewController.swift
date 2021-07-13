@@ -37,6 +37,8 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         super.viewDidLoad()
         
         setIdLabel()
+        
+        title = "녹음 변환"
     }
 
     private func setIdLabel(newId: Int? = nil) {

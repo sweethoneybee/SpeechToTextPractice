@@ -22,6 +22,8 @@ class LiveSpeechViewController: UIViewController, SFSpeechRecognizerDelegate {
         super.viewDidLoad()
         
         recordButton.isEnabled = false
+        
+        title = "라이브 변환"
     }
 
     override func viewDidAppear(_ animated: Bool) {
