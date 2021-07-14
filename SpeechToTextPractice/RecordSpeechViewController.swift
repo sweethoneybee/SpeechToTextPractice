@@ -17,6 +17,8 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
     var audioFileURL: URL!
     
     var speechRecognizer: SFSpeechRecognizer!
+    var speechRecognizer2: SFSpeechRecognizer!
+    var task: SFSpeechRecognitionTask!
     
     private var conversionStartTime: Date!
     private var conversionFinishTime: Date!
@@ -33,6 +35,7 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var recordTimeLabel: UILabel!
     
     @IBOutlet weak var currentId: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,7 +43,13 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         
         title = "녹음 변환"
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("뷰 사라질 것임")
+        task.finish()
+        print("테스크 취소!")
+    }
+    
     private func setIdLabel(newId: Int? = nil) {
         if let id = newId {
             currentId.text = "현재 \(id)까지"
@@ -57,7 +66,7 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
             finishRecording(success: true)
         }
     }
-
+    
     func startRecording() {
         recordingSession = AVAudioSession.sharedInstance()
         
@@ -144,8 +153,17 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         speechToText(id: id)
     }
     
-    func speechToText(id: Int? = nil) {
-        speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier:"ko-KR"))
+    func speechToText(id: Int? = nil, newRecognizer: Bool = false) {
+        if newRecognizer && speechRecognizer2 == nil {
+            speechRecognizer2 = SFSpeechRecognizer(locale: Locale(identifier:"ko-KR"))
+            print("두 번째 리코그나이저 새로 할당")
+        } else {
+            if speechRecognizer == nil {
+                speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier:"ko-KR"))
+                speechRecognizer.queue.maxConcurrentOperationCount = 1
+                print("리코그나이저 새로 할당")
+            }
+        }
         guard let recognizer = speechRecognizer else {
             print("지원하지 않는 로케일입니다")
             return
@@ -173,23 +191,44 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         }
         
         urlLabel.text = url.absoluteString
-//        conversionStartTime = Date()
         var timeFlag = false
-        recognizer.recognitionTask(with: request) { result, error in
-            if !timeFlag {
-                self.conversionStartTime = Date()
-                timeFlag = true
+        if newRecognizer {
+            speechRecognizer2.recognitionTask(with: request) { result, error in
+                if !timeFlag {
+                    self.conversionStartTime = Date()
+                    timeFlag = true
+                }
+                guard let result = result else {
+                    print("두 번째 리코그나이저 음성 변환 실패")
+                    print("error=\(String(describing: error?.localizedDescription))")
+                    self.caculateFinishTime()
+                    return
+                }
+                
+                print(result.bestTranscription.formattedString)
+                if result.isFinal {
+                    self.caculateFinishTime()
+                    self.resultTextView.text = result.bestTranscription.formattedString
+                }
             }
-            guard let result = result else {
-                print("음성 변환 실패")
-                print("error=\(String(describing: error?.localizedDescription))")
-                self.caculateFinishTime()
-                return
-            }
-            
-            if result.isFinal {
-                self.caculateFinishTime()
-                self.resultTextView.text = result.bestTranscription.formattedString
+        } else {
+            task = recognizer.recognitionTask(with: request) { result, error in
+                if !timeFlag {
+                    self.conversionStartTime = Date()
+                    timeFlag = true
+                }
+                guard let result = result else {
+                    print("음성 변환 실패")
+                    print("error=\(String(describing: error?.localizedDescription))")
+                    self.caculateFinishTime()
+                    return
+                }
+                
+                print(result.bestTranscription.formattedString)
+                if result.isFinal {
+                    self.caculateFinishTime()
+                    self.resultTextView.text = result.bestTranscription.formattedString
+                }
             }
         }
     }
