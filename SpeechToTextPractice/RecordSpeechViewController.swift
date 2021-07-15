@@ -17,7 +17,6 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
     var audioFileURL: URL!
     
     var speechRecognizer: SFSpeechRecognizer!
-    var speechRecognizer2: SFSpeechRecognizer!
     var task: SFSpeechRecognitionTask!
     
     private var conversionStartTime: Date!
@@ -153,17 +152,13 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         speechToText(id: id)
     }
     
-    func speechToText(id: Int? = nil, newRecognizer: Bool = false) {
-        if newRecognizer && speechRecognizer2 == nil {
-            speechRecognizer2 = SFSpeechRecognizer(locale: Locale(identifier:"ko-KR"))
-            print("두 번째 리코그나이저 새로 할당")
-        } else {
-            if speechRecognizer == nil {
+    func speechToText(id: Int? = nil) {
+        if speechRecognizer == nil {
                 speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier:"ko-KR"))
                 speechRecognizer.queue.maxConcurrentOperationCount = 1
                 print("리코그나이저 새로 할당")
-            }
         }
+        
         guard let recognizer = speechRecognizer else {
             print("지원하지 않는 로케일입니다")
             return
@@ -185,6 +180,7 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
             url = audioFileURL!
         }
         
+        print("리퀘스트 할당")
         request = SFSpeechURLRecognitionRequest(url: url)
         if recognizer.supportsOnDeviceRecognition {
             request.requiresOnDeviceRecognition = true
@@ -192,45 +188,27 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         
         urlLabel.text = url.absoluteString
         var timeFlag = false
-        if newRecognizer {
-            speechRecognizer2.recognitionTask(with: request) { result, error in
-                if !timeFlag {
-                    self.conversionStartTime = Date()
-                    timeFlag = true
-                }
-                guard let result = result else {
-                    print("두 번째 리코그나이저 음성 변환 실패")
-                    print("error=\(String(describing: error?.localizedDescription))")
-                    self.caculateFinishTime()
-                    return
-                }
-                
-                print(result.bestTranscription.formattedString)
-                if result.isFinal {
-                    self.caculateFinishTime()
-                    self.resultTextView.text = result.bestTranscription.formattedString
-                }
+        
+        print("테스크 시작") // 권한획득 안했어도 이때 물어봄. 반약 권한 거부하면 아래 요청은 fail뜸
+        task = recognizer.recognitionTask(with: request) { result, error in
+            if !timeFlag {
+                self.conversionStartTime = Date()
+                timeFlag = true
             }
-        } else {
-            task = recognizer.recognitionTask(with: request) { result, error in
-                if !timeFlag {
-                    self.conversionStartTime = Date()
-                    timeFlag = true
-                }
-                guard let result = result else {
-                    print("음성 변환 실패")
-                    print("error=\(String(describing: error?.localizedDescription))")
-                    self.caculateFinishTime()
-                    return
-                }
-                
-                print(result.bestTranscription.formattedString)
-                if result.isFinal {
-                    self.caculateFinishTime()
-                    self.resultTextView.text = result.bestTranscription.formattedString
-                }
+            guard let result = result else {
+                print("음성 변환 실패")
+                print("error=\(String(describing: error?.localizedDescription))")
+                self.caculateFinishTime()
+                return
+            }
+            
+            print(result.bestTranscription.formattedString)
+            if result.isFinal {
+                self.caculateFinishTime()
+                self.resultTextView.text = result.bestTranscription.formattedString
             }
         }
+        
     }
     
     func askPermission(completionHandler: @escaping (Bool) -> (Void)) {
