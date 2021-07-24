@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		401396B7269B090F0099511E /* AVAudioFile+duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401396B6269B090F0099511E /* AVAudioFile+duration.swift */; };
+		404B33B126AC55B800C3E764 /* SpeechError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404B33B026AC55B800C3E764 /* SpeechError.swift */; };
 		4061DCFF26935B3B007E0F2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061DCFE26935B3B007E0F2E /* AppDelegate.swift */; };
 		4061DD0126935B3B007E0F2E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061DD0026935B3B007E0F2E /* SceneDelegate.swift */; };
 		4061DD0326935B3B007E0F2E /* LiveSpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061DD0226935B3B007E0F2E /* LiveSpeechViewController.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		401396B6269B090F0099511E /* AVAudioFile+duration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioFile+duration.swift"; sourceTree = "<group>"; };
+		404B33B026AC55B800C3E764 /* SpeechError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechError.swift; sourceTree = "<group>"; };
 		4061DCFB26935B3B007E0F2E /* SpeechToTextPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeechToTextPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4061DCFE26935B3B007E0F2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4061DD0026935B3B007E0F2E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -44,7 +46,6 @@
 		4061DCF226935B3B007E0F2E = {
 			isa = PBXGroup;
 			children = (
-				401396B6269B090F0099511E /* AVAudioFile+duration.swift */,
 				4061DCFD26935B3B007E0F2E /* SpeechToTextPractice */,
 				4061DCFC26935B3B007E0F2E /* Products */,
 			);
@@ -61,11 +62,13 @@
 		4061DCFD26935B3B007E0F2E /* SpeechToTextPractice */ = {
 			isa = PBXGroup;
 			children = (
+				401396B6269B090F0099511E /* AVAudioFile+duration.swift */,
 				4061DCFE26935B3B007E0F2E /* AppDelegate.swift */,
 				4061DD0026935B3B007E0F2E /* SceneDelegate.swift */,
 				4061DD0226935B3B007E0F2E /* LiveSpeechViewController.swift */,
 				4061DD0426935B3B007E0F2E /* Main.storyboard */,
 				4061DD1226971391007E0F2E /* RecordSpeechViewController.swift */,
+				404B33B026AC55B800C3E764 /* SpeechError.swift */,
 				4061DD0726935B3E007E0F2E /* Assets.xcassets */,
 				4061DD0926935B3E007E0F2E /* LaunchScreen.storyboard */,
 				4061DD0C26935B3E007E0F2E /* Info.plist */,
@@ -145,6 +148,7 @@
 			files = (
 				4061DD0326935B3B007E0F2E /* LiveSpeechViewController.swift in Sources */,
 				4061DCFF26935B3B007E0F2E /* AppDelegate.swift in Sources */,
+				404B33B126AC55B800C3E764 /* SpeechError.swift in Sources */,
 				401396B7269B090F0099511E /* AVAudioFile+duration.swift in Sources */,
 				4061DD1326971391007E0F2E /* RecordSpeechViewController.swift in Sources */,
 				4061DD0126935B3B007E0F2E /* SceneDelegate.swift in Sources */,

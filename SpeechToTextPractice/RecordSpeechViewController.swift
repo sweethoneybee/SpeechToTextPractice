@@ -185,7 +185,7 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         if recognizer.supportsOnDeviceRecognition {
             request.requiresOnDeviceRecognition = true
         }
-        
+        request.shouldReportPartialResults = true
         urlLabel.text = url.absoluteString
         var timeFlag = false
         
@@ -197,7 +197,11 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
             }
             guard let result = result else {
                 print("음성 변환 실패")
-                print("error=\(String(describing: error?.localizedDescription))")
+//                print("error=\(String(describing: error?.localizedDescription))")
+                
+                if let error = error {
+                    print("error=\(error.localizedDescription)")
+                }
                 self.caculateFinishTime()
                 return
             }
