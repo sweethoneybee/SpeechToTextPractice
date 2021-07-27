@@ -43,12 +43,14 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         title = "녹음 변환"
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        print("뷰 사라질 것임")
-        task.finish()
-        print("테스크 취소!")
+    @IBAction func onCancel(_ sender: Any) {
+        print("태스크 캔슬")
+        task.cancel()
+        print("task.isCancelled=\(task.isCancelled)")
+        print("task.isFinishing=\(task.isFinishing)")
+        print("task.error=\(task.error)")
+        print("task.state=\(task.state)")
     }
-    
     private func setIdLabel(newId: Int? = nil) {
         if let id = newId {
             currentId.text = "현재 \(id)까지"
@@ -185,7 +187,7 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
         if recognizer.supportsOnDeviceRecognition {
             request.requiresOnDeviceRecognition = true
         }
-        request.shouldReportPartialResults = true
+        request.shouldReportPartialResults = false
         urlLabel.text = url.absoluteString
         var timeFlag = false
         
@@ -208,11 +210,12 @@ class RecordSpeechViewController: UIViewController, AVAudioRecorderDelegate {
             
             print(result.bestTranscription.formattedString)
             if result.isFinal {
+                print("끝!")
                 self.caculateFinishTime()
                 self.resultTextView.text = result.bestTranscription.formattedString
             }
         }
-        
+        task.cancel()
     }
     
     func askPermission(completionHandler: @escaping (Bool) -> (Void)) {
