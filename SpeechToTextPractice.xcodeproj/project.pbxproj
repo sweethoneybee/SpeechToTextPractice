@@ -16,6 +16,8 @@
 		4061DD0826935B3E007E0F2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4061DD0726935B3E007E0F2E /* Assets.xcassets */; };
 		4061DD0B26935B3E007E0F2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4061DD0926935B3E007E0F2E /* LaunchScreen.storyboard */; };
 		4061DD1326971391007E0F2E /* RecordSpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061DD1226971391007E0F2E /* RecordSpeechViewController.swift */; };
+		407806F526BD34A9005BBFAC /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407806F426BD34A9005BBFAC /* ApiKey.swift */; };
+		407806F726BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407806F626BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		4061DD0A26935B3E007E0F2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4061DD0C26935B3E007E0F2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4061DD1226971391007E0F2E /* RecordSpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSpeechViewController.swift; sourceTree = "<group>"; };
+		407806F426BD34A9005BBFAC /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
+		407806F626BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPartySpeechRecognition.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +71,9 @@
 				4061DD0026935B3B007E0F2E /* SceneDelegate.swift */,
 				4061DD0226935B3B007E0F2E /* LiveSpeechViewController.swift */,
 				4061DD0426935B3B007E0F2E /* Main.storyboard */,
+				407806F626BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift */,
 				4061DD1226971391007E0F2E /* RecordSpeechViewController.swift */,
+				407806F426BD34A9005BBFAC /* ApiKey.swift */,
 				404B33B026AC55B800C3E764 /* SpeechError.swift */,
 				4061DD0726935B3E007E0F2E /* Assets.xcassets */,
 				4061DD0926935B3E007E0F2E /* LaunchScreen.storyboard */,
@@ -146,8 +152,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				407806F726BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift in Sources */,
 				4061DD0326935B3B007E0F2E /* LiveSpeechViewController.swift in Sources */,
 				4061DCFF26935B3B007E0F2E /* AppDelegate.swift in Sources */,
+				407806F526BD34A9005BBFAC /* ApiKey.swift in Sources */,
 				404B33B126AC55B800C3E764 /* SpeechError.swift in Sources */,
 				401396B7269B090F0099511E /* AVAudioFile+duration.swift in Sources */,
 				4061DD1326971391007E0F2E /* RecordSpeechViewController.swift in Sources */,
