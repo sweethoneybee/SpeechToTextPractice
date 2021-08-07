@@ -49,8 +49,9 @@ class ThirdPartySpeechRecognition: UIViewController {
                         self.audioFileURL = self.getDocumentsDirectory().appendingPathComponent("recording_\(SpeechDefaults.shared.fileId).m4a")
                         
                         let settings = [
-                            AVFormatIDKey: Int(kAudioFormatLinearPCM),
-                            AVSampleRateKey: 12000,
+                            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+//                            AVFormatIDKey: Int(kAudioFormatLinearPCM),
+                            AVSampleRateKey: 16000,
                             AVNumberOfChannelsKey: 1,
                             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
                         ]
@@ -100,6 +101,25 @@ class ThirdPartySpeechRecognition: UIViewController {
         }
     }
     
+    // MARK:- File Format
+    @IBAction
+    func fileMove() {
+        let atPath = audioFileURL.absoluteString
+        if let range = atPath.range(of: ".m4a") {
+            var toPath = String(atPath[..<range.lowerBound])
+            toPath.append(".wav")
+            guard let data = try? Data(contentsOf: audioFileURL) else { return }
+            
+            do {
+                let toURL = URL(string: toPath)!
+                try data.write(to: toURL)
+                print("성공")
+                audioFileURL = toURL
+            } catch {
+                print("실패")
+            }
+        }
+    }
     // MARK:- Recognition
     @IBAction func requestRecognition(_ sender: Any) {
         guard let kakaoUrl = URL(string:"https://kakaoi-newtone-openapi.kakao.com/v1/recognize") else { return }
@@ -109,10 +129,12 @@ class ThirdPartySpeechRecognition: UIViewController {
         request.addValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
         request.addValue("KakaoAK \(ApiKey.kakaoI)", forHTTPHeaderField: "Authorization")
         
+        print("요청할 URL=\(audioFileURL)")
         guard let data = try? Data(contentsOf: audioFileURL) else {
             print("데이터 준비 실패")
             return
         }
+        
         request.httpBody = data
         DispatchQueue.global().async {
             URLSession.shared.dataTask(with: request) { data, response, error in

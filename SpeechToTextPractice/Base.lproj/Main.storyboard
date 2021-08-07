@@ -191,7 +191,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="2zi-5I-fOJ">
-                                <rect key="frame" x="162" y="109" width="90" height="30"/>
+                                <rect key="frame" x="110" y="109" width="194" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ttB-Cq-Zmy">
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -200,9 +200,16 @@
                                             <action selector="onRecordButton:" destination="eIa-5m-irJ" eventType="touchUpInside" id="Gsm-QC-2Pr"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ez-Ts-FOt">
+                                        <rect key="frame" x="60" y="0.0" width="52" height="30"/>
+                                        <state key="normal" title="포맷변환"/>
+                                        <connections>
+                                            <action selector="fileMove" destination="eIa-5m-irJ" eventType="touchUpInside" id="HG4-d4-hda"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d23-Yg-ocw">
-                                        <rect key="frame" x="60" y="0.0" width="30" height="30"/>
-                                        <state key="normal" title="변환"/>
+                                        <rect key="frame" x="142" y="0.0" width="52" height="30"/>
+                                        <state key="normal" title="음성인식"/>
                                         <connections>
                                             <action selector="requestRecognition:" destination="eIa-5m-irJ" eventType="touchUpInside" id="zsI-24-cUp"/>
                                         </connections>

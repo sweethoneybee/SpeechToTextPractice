@@ -20,6 +20,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>아니 마이크 권한 획득 말 안했잖아 ㅋㅋ</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
