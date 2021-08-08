@@ -8,6 +8,7 @@
 import UIKit
 import Foundation
 import AVFoundation
+import Alamofire
 
 class ThirdPartySpeechRecognition: UIViewController {
     var recordingSession: AVAudioSession!
@@ -49,8 +50,8 @@ class ThirdPartySpeechRecognition: UIViewController {
                         self.audioFileURL = self.getDocumentsDirectory().appendingPathComponent("recording_\(SpeechDefaults.shared.fileId).m4a")
                         
                         let settings = [
-                            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-//                            AVFormatIDKey: Int(kAudioFormatLinearPCM),
+//                            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+                            AVFormatIDKey: Int(kAudioFormatLinearPCM),
                             AVSampleRateKey: 16000,
                             AVNumberOfChannelsKey: 1,
                             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
@@ -123,44 +124,64 @@ class ThirdPartySpeechRecognition: UIViewController {
     // MARK:- Recognition
     @IBAction func requestRecognition(_ sender: Any) {
         guard let kakaoUrl = URL(string:"https://kakaoi-newtone-openapi.kakao.com/v1/recognize") else { return }
-        var request = URLRequest(url: kakaoUrl)
-        request.httpMethod = "POST"
-        request.addValue("chunked", forHTTPHeaderField: "Transfer-Encoding")
-        request.addValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
-        request.addValue("KakaoAK \(ApiKey.kakaoI)", forHTTPHeaderField: "Authorization")
-        
-        print("요청할 URL=\(audioFileURL)")
-        guard let data = try? Data(contentsOf: audioFileURL) else {
+    
+        guard let audioFileURL = audioFileURL,
+              let data = try? Data(contentsOf: audioFileURL) else {
             print("데이터 준비 실패")
             return
         }
         
-        request.httpBody = data
-        DispatchQueue.global().async {
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    print("요청 실패. 에러=\(error)")
+//        print("요청할 URL=\(audioFileURL)")
+//        var request = URLRequest(url: kakaoUrl)
+//        request.httpMethod = "POST"
+//        request.addValue("chunked", forHTTPHeaderField: "Transfer-Encoding")
+//        request.addValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
+//        request.addValue("KakaoAK \(ApiKey.kakaoI)", forHTTPHeaderField: "Authorization")
+//
+//        request.httpBody = data
+//        DispatchQueue.global().async {
+//            URLSession.shared.dataTask(with: request) { data, response, error in
+//                if let error = error {
+//                    print("요청 실패. 에러=\(error)")
+//                    return
+//                }
+//
+//                guard let response = response as? HTTPURLResponse else {
+//                    print("response 캐스팅 실패")
+//                    return
+//                }
+//                guard let data = data else {
+//                    print("data 캐스팅 실패")
+//                    return
+//                }
+//
+//                print("response = \(response)")
+//
+//                print("data = \(data)")
+//
+//                let str = String(data: data, encoding: .utf8)
+//                print("문자열 =\(str!)")
+//
+//            }.resume()
+//        }
+        
+        let headers: HTTPHeaders = [
+            "Transfer-Encoding": "chunked",
+            "Content-Type": "application/octet-stream",
+            "Authorization": "KakaoAK \(ApiKey.kakaoI)"
+        ]
+        
+        AF.upload(data, to: "https://kakaoi-newtone-openapi.kakao.com/v1/recognize", headers: headers)
+            .response { response in
+                print("요청성공")
+                guard let data = response.data else {
+                    print("데이터 변환실패")
                     return
                 }
                 
-                guard let response = response as? HTTPURLResponse else {
-                    print("response 캐스팅 실패")
-                    return
-                }
-                guard let data = data else {
-                    print("data 캐스팅 실패")
-                    return
-                }
-                
-                print("response = \(response)")
-                
-                print("data = \(data)")
-                
-                let str = String(data: data, encoding: .utf8)
-                print("문자열 =\(str!)")
-                
-            }.resume()
-        }
+                let str = String(data: data, encoding: .utf8)!
+                print(str)
+            }
     }
 }
 

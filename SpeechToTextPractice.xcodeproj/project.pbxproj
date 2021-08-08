@@ -18,9 +18,11 @@
 		4061DD1326971391007E0F2E /* RecordSpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061DD1226971391007E0F2E /* RecordSpeechViewController.swift */; };
 		407806F526BD34A9005BBFAC /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407806F426BD34A9005BBFAC /* ApiKey.swift */; };
 		407806F726BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407806F626BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift */; };
+		95D3C0A6129B48D6E08503A3 /* libPods-SpeechToTextPractice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 148D20AE87CAC8204C1ADCC3 /* libPods-SpeechToTextPractice.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		148D20AE87CAC8204C1ADCC3 /* libPods-SpeechToTextPractice.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SpeechToTextPractice.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		401396B6269B090F0099511E /* AVAudioFile+duration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVAudioFile+duration.swift"; sourceTree = "<group>"; };
 		404B33B026AC55B800C3E764 /* SpeechError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechError.swift; sourceTree = "<group>"; };
 		4061DCFB26935B3B007E0F2E /* SpeechToTextPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeechToTextPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,6 +36,8 @@
 		4061DD1226971391007E0F2E /* RecordSpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSpeechViewController.swift; sourceTree = "<group>"; };
 		407806F426BD34A9005BBFAC /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		407806F626BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPartySpeechRecognition.swift; sourceTree = "<group>"; };
+		60D8C52C779CA339AD350A28 /* Pods-SpeechToTextPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpeechToTextPractice.release.xcconfig"; path = "Target Support Files/Pods-SpeechToTextPractice/Pods-SpeechToTextPractice.release.xcconfig"; sourceTree = "<group>"; };
+		AED0E0E41AA7E19C18B4D64D /* Pods-SpeechToTextPractice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpeechToTextPractice.debug.xcconfig"; path = "Target Support Files/Pods-SpeechToTextPractice/Pods-SpeechToTextPractice.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,17 +45,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95D3C0A6129B48D6E08503A3 /* libPods-SpeechToTextPractice.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01407217258DC80CBF5E52D9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AED0E0E41AA7E19C18B4D64D /* Pods-SpeechToTextPractice.debug.xcconfig */,
+				60D8C52C779CA339AD350A28 /* Pods-SpeechToTextPractice.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		4061DCF226935B3B007E0F2E = {
 			isa = PBXGroup;
 			children = (
 				4061DCFD26935B3B007E0F2E /* SpeechToTextPractice */,
 				4061DCFC26935B3B007E0F2E /* Products */,
+				01407217258DC80CBF5E52D9 /* Pods */,
+				7D297C2943C83F04C99A00D3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -82,6 +99,14 @@
 			path = SpeechToTextPractice;
 			sourceTree = "<group>";
 		};
+		7D297C2943C83F04C99A00D3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				148D20AE87CAC8204C1ADCC3 /* libPods-SpeechToTextPractice.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -89,6 +114,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4061DD0F26935B3E007E0F2E /* Build configuration list for PBXNativeTarget "SpeechToTextPractice" */;
 			buildPhases = (
+				1E6FD5A2AA7FF9680C89729D /* [CP] Check Pods Manifest.lock */,
 				4061DCF726935B3B007E0F2E /* Sources */,
 				4061DCF826935B3B007E0F2E /* Frameworks */,
 				4061DCF926935B3B007E0F2E /* Resources */,
@@ -146,6 +172,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1E6FD5A2AA7FF9680C89729D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SpeechToTextPractice-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4061DCF726935B3B007E0F2E /* Sources */ = {
@@ -303,6 +354,7 @@
 		};
 		4061DD1026935B3E007E0F2E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AED0E0E41AA7E19C18B4D64D /* Pods-SpeechToTextPractice.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -324,6 +376,7 @@
 		};
 		4061DD1126935B3E007E0F2E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 60D8C52C779CA339AD350A28 /* Pods-SpeechToTextPractice.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
