@@ -18,6 +18,7 @@
 		4061DD1326971391007E0F2E /* RecordSpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4061DD1226971391007E0F2E /* RecordSpeechViewController.swift */; };
 		407806F526BD34A9005BBFAC /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407806F426BD34A9005BBFAC /* ApiKey.swift */; };
 		407806F726BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407806F626BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift */; };
+		40B19A2026C26A4E00C64186 /* Codables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B19A1F26C26A4E00C64186 /* Codables.swift */; };
 		95D3C0A6129B48D6E08503A3 /* libPods-SpeechToTextPractice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 148D20AE87CAC8204C1ADCC3 /* libPods-SpeechToTextPractice.a */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		4061DD1226971391007E0F2E /* RecordSpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSpeechViewController.swift; sourceTree = "<group>"; };
 		407806F426BD34A9005BBFAC /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
 		407806F626BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdPartySpeechRecognition.swift; sourceTree = "<group>"; };
+		40B19A1F26C26A4E00C64186 /* Codables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Codables.swift; sourceTree = "<group>"; };
 		60D8C52C779CA339AD350A28 /* Pods-SpeechToTextPractice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpeechToTextPractice.release.xcconfig"; path = "Target Support Files/Pods-SpeechToTextPractice/Pods-SpeechToTextPractice.release.xcconfig"; sourceTree = "<group>"; };
 		AED0E0E41AA7E19C18B4D64D /* Pods-SpeechToTextPractice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpeechToTextPractice.debug.xcconfig"; path = "Target Support Files/Pods-SpeechToTextPractice/Pods-SpeechToTextPractice.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,7 +60,6 @@
 				AED0E0E41AA7E19C18B4D64D /* Pods-SpeechToTextPractice.debug.xcconfig */,
 				60D8C52C779CA339AD350A28 /* Pods-SpeechToTextPractice.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -89,6 +90,7 @@
 				4061DD0226935B3B007E0F2E /* LiveSpeechViewController.swift */,
 				4061DD0426935B3B007E0F2E /* Main.storyboard */,
 				407806F626BD3DE0005BBFAC /* ThirdPartySpeechRecognition.swift */,
+				40B19A1F26C26A4E00C64186 /* Codables.swift */,
 				4061DD1226971391007E0F2E /* RecordSpeechViewController.swift */,
 				407806F426BD34A9005BBFAC /* ApiKey.swift */,
 				404B33B026AC55B800C3E764 /* SpeechError.swift */,
@@ -207,6 +209,7 @@
 				4061DD0326935B3B007E0F2E /* LiveSpeechViewController.swift in Sources */,
 				4061DCFF26935B3B007E0F2E /* AppDelegate.swift in Sources */,
 				407806F526BD34A9005BBFAC /* ApiKey.swift in Sources */,
+				40B19A2026C26A4E00C64186 /* Codables.swift in Sources */,
 				404B33B126AC55B800C3E764 /* SpeechError.swift in Sources */,
 				401396B7269B090F0099511E /* AVAudioFile+duration.swift in Sources */,
 				4061DD1326971391007E0F2E /* RecordSpeechViewController.swift in Sources */,

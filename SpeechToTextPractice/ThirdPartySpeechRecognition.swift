@@ -47,11 +47,11 @@ class ThirdPartySpeechRecognition: UIViewController {
                 DispatchQueue.main.async { [self] in
                     guard let self = self else { return }
                     if allowed {
-                        self.audioFileURL = self.getDocumentsDirectory().appendingPathComponent("recording_\(SpeechDefaults.shared.fileId).m4a")
+                        self.audioFileURL = self.getDocumentsDirectory().appendingPathComponent("recording_\(SpeechDefaults.shared.fileId).mp4")
                         
                         let settings = [
-//                            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-                            AVFormatIDKey: Int(kAudioFormatLinearPCM),
+                            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+//                            AVFormatIDKey: Int(kAudioFormatLinearPCM),
                             AVSampleRateKey: 16000,
                             AVNumberOfChannelsKey: 1,
                             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
@@ -131,14 +131,86 @@ class ThirdPartySpeechRecognition: UIViewController {
             return
         }
         
-        print("요청할 URL=\(audioFileURL)")
-        var request = URLRequest(url: kakaoUrl)
+//        print("요청할 URL=\(audioFileURL)")
+//        var request = URLRequest(url: kakaoUrl)
+//        request.httpMethod = "POST"
+//        request.addValue("chunked", forHTTPHeaderField: "Transfer-Encoding")
+//        request.addValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
+//        request.addValue("KakaoAK \(ApiKey.kakaoI)", forHTTPHeaderField: "Authorization")
+//
+//        request.httpBody = data
+//        let workItem = DispatchWorkItem {
+//            URLSession.shared.dataTask(with: request) { data, response, error in
+//                if let error = error {
+//                    print("요청 실패. 에러=\(error)")
+//                    return
+//                }
+//
+//                guard let response = response as? HTTPURLResponse else {
+//                    print("response 캐스팅 실패")
+//                    return
+//                }
+//                guard let data = data else {
+//                    print("data 캐스팅 실패")
+//                    return
+//                }
+//
+//                print("response = \(response)")
+//
+//                print("data = \(data)")
+//
+//                let str = String(data: data, encoding: .utf8)
+//                print("문자열 =\(str!)")
+//
+//            }.resume()
+//        }
+//
+//        DispatchQueue.global().async(execute: workItem)
+//        workItem.cancel()
+        
+        
+//        requestKakao(to: kakaoUrl.absoluteString, data: data)
+        
+        requestGoogle(data: data)
+    }
+    
+    private func requestKakao(to url: String, data: Data) {
+        let headers: HTTPHeaders = [
+            "Transfer-Encoding": "chunked",
+            "Content-Type": "application/octet-stream",
+            "Authorization": "KakaoAK \(ApiKey.kakaoI)"
+        ]
+        
+        AF.upload(data, to: url, headers: headers)
+            .response { response in
+                print("요청성공")
+                guard let data = response.data else {
+                    print("데이터 변환실패")
+                    return
+                }
+                
+                let str = String(data: data, encoding: .utf8)!
+                print(str)
+            }
+    }
+    
+    private func requestGoogle(data: Data) {
+        var request = URLRequest(url: URL(string: "https://speech.googleapis.com/v1p1beta1/speech:recognize?key=\(ApiKey.google)")!)
         request.httpMethod = "POST"
-        request.addValue("chunked", forHTTPHeaderField: "Transfer-Encoding")
-        request.addValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
-        request.addValue("KakaoAK \(ApiKey.kakaoI)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
 
-        request.httpBody = data
+        let config = Config(encoding: "MP3",
+                            sampleRateHertz: 16000,
+                            languageCode: "ko-KR")
+        let audio = Audio(content: data.base64EncodedString())
+        let googleSpeechJSON = GoogleSpeechJSON(config: config, audio: audio)
+        
+        guard let body = try? JSONEncoder().encode(googleSpeechJSON) else {
+            print("JSON 인코딩 실패")
+            return
+        }
+        request.httpBody = body
+        
         let workItem = DispatchWorkItem {
             URLSession.shared.dataTask(with: request) { data, response, error in
                 if let error = error {
@@ -166,28 +238,6 @@ class ThirdPartySpeechRecognition: UIViewController {
         }
         
         DispatchQueue.global().async(execute: workItem)
-        workItem.cancel()
-//        requestKakao(to: kakaoUrl.absoluteString, data: data)
-    }
-    
-    func requestKakao(to url: String, data: Data) {
-        let headers: HTTPHeaders = [
-            "Transfer-Encoding": "chunked",
-            "Content-Type": "application/octet-stream",
-            "Authorization": "KakaoAK \(ApiKey.kakaoI)"
-        ]
-        
-        AF.upload(data, to: url, headers: headers)
-            .response { response in
-                print("요청성공")
-                guard let data = response.data else {
-                    print("데이터 변환실패")
-                    return
-                }
-                
-                let str = String(data: data, encoding: .utf8)!
-                print(str)
-            }
     }
 }
 
