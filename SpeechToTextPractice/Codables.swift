@@ -24,3 +24,19 @@ struct Config: Codable {
     let sampleRateHertz: Int
     let languageCode: String
 }
+
+// MARK: - GoogleSpeechResult
+struct GoogleSpeechResult: Decodable {
+    let results: [Result]
+    let totalBilledTime: String
+}
+
+struct Result: Decodable {
+    let alternatives: [Alternative]
+    let languageCode: String
+}
+
+struct Alternative: Decodable {
+    let transcript: String
+    let confidence: Double
+}

@@ -129,9 +129,9 @@ class ThirdPartySpeechRecognition: UIViewController {
             return
         }
         
-        requestKakao(data: data)
+//        requestKakao(data: data)
 //        requestKakaoAF(data: data)
-//        requestGoogle(data: data)
+        requestGoogle(data: data)
     }
     
     private func requestKakao(data: Data) {
@@ -241,9 +241,16 @@ class ThirdPartySpeechRecognition: UIViewController {
 
                 print("data = \(data)")
 
+                do {
+                    let resultJSON = try JSONDecoder().decode(GoogleSpeechResult.self, from: data)
+                    print("=========구글 결과물 변환 성공========")
+                    print("결과물=\(resultJSON)")
+                } catch {
+                    print("구글 결과물 변환 실패")
+                }
                 let str = String(data: data, encoding: .utf8)
-                print("문자열 =\(str!)")
-
+                print("==============결과물 텍스트로 변환==============")
+                print(str!)
             }.resume()
         }
         
