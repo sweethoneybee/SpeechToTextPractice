@@ -123,6 +123,18 @@ class ThirdPartySpeechRecognition: UIViewController {
     }
     // MARK:- Recognition
     @IBAction func requestRecognition(_ sender: Any) {
+        guard let audioFileURL = audioFileURL,
+              let data = try? Data(contentsOf: audioFileURL) else {
+            print("데이터 준비 실패")
+            return
+        }
+        
+        requestKakao(data: data)
+//        requestKakaoAF(data: data)
+//        requestGoogle(data: data)
+    }
+    
+    private func requestKakao(data: Data) {
         guard let kakaoUrl = URL(string:"https://kakaoi-newtone-openapi.kakao.com/v1/recognize") else { return }
     
         guard let audioFileURL = audioFileURL,
@@ -131,57 +143,55 @@ class ThirdPartySpeechRecognition: UIViewController {
             return
         }
         
-//        print("요청할 URL=\(audioFileURL)")
-//        var request = URLRequest(url: kakaoUrl)
-//        request.httpMethod = "POST"
-//        request.addValue("chunked", forHTTPHeaderField: "Transfer-Encoding")
-//        request.addValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
-//        request.addValue("KakaoAK \(ApiKey.kakaoI)", forHTTPHeaderField: "Authorization")
-//
-//        request.httpBody = data
-//        let workItem = DispatchWorkItem {
-//            URLSession.shared.dataTask(with: request) { data, response, error in
-//                if let error = error {
-//                    print("요청 실패. 에러=\(error)")
-//                    return
-//                }
-//
-//                guard let response = response as? HTTPURLResponse else {
-//                    print("response 캐스팅 실패")
-//                    return
-//                }
-//                guard let data = data else {
-//                    print("data 캐스팅 실패")
-//                    return
-//                }
-//
-//                print("response = \(response)")
-//
-//                print("data = \(data)")
-//
-//                let str = String(data: data, encoding: .utf8)
-//                print("문자열 =\(str!)")
-//
-//            }.resume()
-//        }
-//
-//        DispatchQueue.global().async(execute: workItem)
-//        workItem.cancel()
+        print("요청할 URL=\(audioFileURL)")
+        var request = URLRequest(url: kakaoUrl)
+        request.httpMethod = "POST"
+        request.addValue("chunked", forHTTPHeaderField: "Transfer-Encoding")
+        request.addValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
+        request.addValue("KakaoAK \(ApiKey.kakaoI)", forHTTPHeaderField: "Authorization")
+
+        request.httpBody = data
+        let workItem = DispatchWorkItem {
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print("요청 실패. 에러=\(error)")
+                    return
+                }
+
+                guard let response = response as? HTTPURLResponse else {
+                    print("response 캐스팅 실패")
+                    return
+                }
+                guard let data = data else {
+                    print("data 캐스팅 실패")
+                    return
+                }
+
+                print("response = \(response)")
+
+                print("data = \(data)")
+
+                let str = String(data: data, encoding: .utf8)
+                print("문자열 =\(str!)")
+
+            }.resume()
+        }
+
+        DispatchQueue.global().async(execute: workItem)
+        workItem.cancel()
         
         
-//        requestKakao(to: kakaoUrl.absoluteString, data: data)
-        
-        requestGoogle(data: data)
     }
     
-    private func requestKakao(to url: String, data: Data) {
+    private func requestKakaoAF(data: Data) {
+        guard let kakaoUrl = URL(string:"https://kakaoi-newtone-openapi.kakao.com/v1/recognize") else { return }
         let headers: HTTPHeaders = [
             "Transfer-Encoding": "chunked",
             "Content-Type": "application/octet-stream",
             "Authorization": "KakaoAK \(ApiKey.kakaoI)"
         ]
         
-        AF.upload(data, to: url, headers: headers)
+        AF.upload(data, to: kakaoUrl, headers: headers)
             .response { response in
                 print("요청성공")
                 guard let data = response.data else {
@@ -199,7 +209,7 @@ class ThirdPartySpeechRecognition: UIViewController {
         request.httpMethod = "POST"
         request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
 
-        let config = Config(encoding: "MP3",
+        let config = Config(encoding: "MP3", // "LINEAR16"
                             sampleRateHertz: 16000,
                             languageCode: "ko-KR")
         let audio = Audio(content: data.base64EncodedString())
