@@ -131,7 +131,8 @@ class ThirdPartySpeechRecognition: UIViewController {
         
 //        requestKakao(data: data)
 //        requestKakaoAF(data: data)
-        requestGoogle(data: data)
+//        requestGoogle(data: data)
+        requestGoogleAF(data: data)
     }
     
     private func requestKakao(data: Data) {
@@ -255,6 +256,36 @@ class ThirdPartySpeechRecognition: UIViewController {
         }
         
         DispatchQueue.global().async(execute: workItem)
+    }
+    
+    private func requestGoogleAF(data: Data) {
+        guard let url = URL(string: "https://speech.googleapis.com/v1p1beta1/speech:recognize?key=\(ApiKey.google)") else { return }
+        let config = Config(encoding: "MP3", // "LINEAR16"
+                            sampleRateHertz: 16000,
+                            languageCode: "ko-KR")
+        let audio = Audio(content: data.base64EncodedString())
+        let googleSpeechJSON = GoogleSpeechJSON(config: config, audio: audio)
+    
+        _ = AF.request(url, method: .post, parameters: googleSpeechJSON, encoder: JSONParameterEncoder.default).response { response in
+            switch response.result {
+            case .failure(let error):
+                print("에러!=\(error)")
+            case .success(let data):
+                guard let data = data,
+                      let result = try? JSONDecoder().decode(GoogleSpeechResult.self, from: data) else {
+                    print("성공은 했지만 데이터 닐")
+                    return
+                }
+                
+                print(result)
+            }
+        }
+        
+        
+//        _ = AF.request(url, method: .post, parameters: googleSpeechJSON, encoder: JSONParameterEncoder.default)
+//            .responseDecodable(of: GoogleSpeechResult.self) { response in
+//                print(response)
+//            }
     }
 }
 
