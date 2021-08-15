@@ -9,6 +9,8 @@ import UIKit
 import Foundation
 import AVFoundation
 import Alamofire
+import os
+
 
 class ThirdPartySpeechRecognition: UIViewController {
     var recordingSession: AVAudioSession!
@@ -16,7 +18,7 @@ class ThirdPartySpeechRecognition: UIViewController {
     var audioFileURL: URL!
     private var recordStartTime: Date!
     private var recordFinishTime: Date!
-    
+    private var logger = Logger()
     
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var urlLabel: UILabel!
@@ -78,6 +80,7 @@ class ThirdPartySpeechRecognition: UIViewController {
             
         } catch {
             print("세션 초기화, 권한 획득 중 오류! \(error)")
+            logger.info("세션 초기화, 권한 획등 중 오류!")
         }
     }
     
@@ -115,9 +118,11 @@ class ThirdPartySpeechRecognition: UIViewController {
                 let toURL = URL(string: toPath)!
                 try data.write(to: toURL)
                 print("성공")
+                logger.debug("성공")
                 audioFileURL = toURL
             } catch {
                 print("실패")
+                logger.debug("실패")
             }
         }
     }
@@ -274,9 +279,11 @@ class ThirdPartySpeechRecognition: UIViewController {
                 guard let data = data,
                       let result = try? JSONDecoder().decode(GoogleSpeechResult.self, from: data) else {
                     print("성공은 했지만 데이터 닐")
+                    self.logger.info("성공은 했지만 데이터 닐")
                     return
                 }
                 
+                self.logger.debug("디버그 로깅")
                 print(result)
             }
         }
